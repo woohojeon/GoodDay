@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#3b82f6" />
+    <title>🎪 플리마켓 - QR 주문</title>
+
+    <style>
+      /* Safe area support */
+      :root {
+        --sat: env(safe-area-inset-top, 0px);
+        --sab: env(safe-area-inset-bottom, 0px);
+        --sal: env(safe-area-inset-left, 0px);
+        --sar: env(safe-area-inset-right, 0px);
+      }
+      .safe-area-inset-bottom {
+        padding-bottom: var(--sab);
+      }
+      .pb-safe {
+        padding-bottom: max(1rem, var(--sab));
+      }
+      /* Touch improvements */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        overscroll-behavior: none;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background: #f6f9f7;
+      }
+      input, textarea {
+        -webkit-user-select: text;
+        user-select: text;
+      }
+      .touch-manipulation {
+        touch-action: manipulation;
+      }
+      .select-none {
+        -webkit-user-select: none;
+        user-select: none;
+      }
+    </style>
+
+    <!-- ✅ TossPayments SDK (반드시 추가) -->
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

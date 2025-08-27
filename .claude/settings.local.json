@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm start)",
+      "Bash(npm run server:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node server.js)",
+      "Bash(node:*)",
+      "Bash(timeout:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\"
+    ]
+  }
+}
