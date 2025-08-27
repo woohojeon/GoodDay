@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Plus, Minus, X, Check, Coffee, Shirt, Gift, QrCode } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Check, Coffee, Shirt, Gift, QrCode } from 'lucide-react';
 import { PaymentModal } from './components/PaymentModal';
 import { QRCodeDisplay } from './components/QRCodeDisplay';
 import './App.css';
@@ -104,7 +104,7 @@ const ProductCard: React.FC<{
 );
 
 const SuccessModal: React.FC<{ isOpen: boolean; onClose: () => void; orderNumber: string; }>
-= ({ isOpen, onClose, orderNumber }) => {
+= ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   return (
     <div className="modal" role="dialog" aria-modal="true">

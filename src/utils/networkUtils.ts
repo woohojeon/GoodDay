@@ -43,8 +43,6 @@ const getFallbackUrl = (): string => {
   
   // localhost인 경우 일반적인 네트워크 IP 대역 사용
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    // 일반적인 네트워크 IP 대역들을 순서대로 시도
-    const commonIps = ['192.168.1.1', '192.168.0.1', '10.0.0.1'];
     const baseIp = '192.168.0.4'; // Vite에서 표시된 실제 IP
     return `http://${baseIp}:${port || '5173'}`;
   }
