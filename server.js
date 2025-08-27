@@ -4,6 +4,7 @@ import sqlite3 from 'sqlite3';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import axios from 'axios';
+import fetch from 'node-fetch';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -43,6 +44,14 @@ db.serialize(() => {
 
 const BUSINESS_NUMBER = '123-45-67890';
 
+// SMS 설정 (쿨SMS 사용 - 가입 후 실제 키로 교체 필요)
+const SMS_CONFIG = {
+  apiKey: 'COOLSMS_API_KEY', // 실제 API 키로 교체 
+  apiSecret: 'COOLSMS_API_SECRET', // 실제 API 시크릿으로 교체
+  fromPhone: '01012345678', // 발신번호 (등록된 번호)
+  enabled: false // 테스트 모드 (true로 변경하면 실제 발송)
+};
+
 const KAKAOPAY_CONFIG = {
   cid: 'TC0ONETIME',
   partner_order_id: '',
@@ -63,6 +72,53 @@ const TOSS_CONFIG = {
   failUrl: 'http://localhost:3001/payment/toss/fail'
 };
 
+// SMS 발송 함수
+const sendOrderSMS = async (orderData) => {
+  if (!SMS_CONFIG.enabled) {
+    console.log('📱 SMS 테스트 모드:', {
+      to: orderData.customerPhone,
+      message: `[굿데이] 주문완료
+주문번호: ${orderData.orderId}
+고객명: ${orderData.customerName}
+주문상품: ${orderData.items.map(item => `${item.name} x${item.quantity}`).join(', ')}
+총금액: ${orderData.totalAmount.toLocaleString()}원
+감사합니다! 🎉`
+    });
+    return { success: true, message: 'SMS 테스트 모드' };
+  }
+
+  try {
+    const message = `[굿데이] 주문완료
+주문번호: ${orderData.orderId}
+고객명: ${orderData.customerName}
+주문상품: ${orderData.items.map(item => `${item.name} x${item.quantity}`).join(', ')}
+총금액: ${orderData.totalAmount.toLocaleString()}원
+감사합니다! 🎉`;
+
+    // 쿨SMS API 호출 (실제 사용시)
+    const response = await fetch('https://api.coolsms.co.kr/messages/v4/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': `HMAC-SHA256 apiKey=${SMS_CONFIG.apiKey}, date=${new Date().toISOString()}, salt=${Math.random()}, signature=signature`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: {
+          to: orderData.customerPhone,
+          from: SMS_CONFIG.fromPhone,
+          text: message
+        }
+      })
+    });
+
+    const result = await response.json();
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('SMS 발송 실패:', error);
+    return { success: false, error: error.message };
+  }
+};
+
 app.post('/api/orders', (req, res) => {
   const { customerName, customerPhone, items, totalAmount, notes } = req.body;
   const orderId = `FM${Date.now().toString().slice(-8)}`;
@@ -79,6 +135,19 @@ app.post('/api/orders', (req, res) => {
         return res.status(500).json({ error: 'Failed to create order' });
       }
       
+      // SMS 발송
+      const orderData = {
+        orderId,
+        customerName,
+        customerPhone,
+        items: JSON.parse(itemsJson),
+        totalAmount
+      };
+      
+      sendOrderSMS(orderData).then(smsResult => {
+        console.log('SMS 발송 결과:', smsResult);
+      });
+
       res.json({
         orderId,
         message: 'Order created successfully',
