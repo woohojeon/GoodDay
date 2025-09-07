@@ -14,7 +14,12 @@
       "Bash(git commit:*)",
       "Bash(git branch:*)",
       "Bash(git remote add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm run lint)",
+      "Bash(curl:*)",
+      "Bash(dir)",
+      "Bash(dir ..fleamarket-app)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": [],

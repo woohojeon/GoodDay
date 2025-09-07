@@ -46,11 +46,11 @@ export const paymentApi = {
         redirectUrl: response.data.next_redirect_pc_url,
         message: 'KakaoPay 결제 페이지로 이동합니다.',
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         orderId,
         status: 'error',
-        message: error.response?.data?.message || 'KakaoPay 결제 준비 중 오류가 발생했습니다.',
+        message: (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'KakaoPay 결제 준비 중 오류가 발생했습니다.',
       };
     }
   },
@@ -65,8 +65,8 @@ export const paymentApi = {
       
       const { clientKey, successUrl, failUrl } = response.data;
       
-      if (typeof window !== 'undefined' && (window as any).TossPayments) {
-        const tossPayments = (window as any).TossPayments(clientKey);
+      if (typeof window !== 'undefined' && (window as { TossPayments?: (key: string) => unknown }).TossPayments) {
+        const tossPayments = (window as { TossPayments: (key: string) => { requestPayment: (method: string, options: unknown) => Promise<void> } }).TossPayments(clientKey);
         
         await tossPayments.requestPayment('카드', {
           amount,
@@ -89,11 +89,11 @@ export const paymentApi = {
           message: 'Toss Payments SDK가 로드되지 않았습니다.',
         };
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         orderId,
         status: 'error',
-        message: error.response?.data?.message || 'Toss 결제 준비 중 오류가 발생했습니다.',
+        message: (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Toss 결제 준비 중 오류가 발생했습니다.',
       };
     }
   },
@@ -112,7 +112,7 @@ export const paymentApi = {
         status: 'completed',
         message: '데모 결제가 완료되었습니다.',
       };
-    } catch (error: any) {
+    } catch {
       return {
         orderId,
         status: 'error',
