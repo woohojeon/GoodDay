@@ -132,7 +132,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           backgroundColor: '#f8f9fa',
           borderRadius: '12px',
           padding: '24px',
-          marginBottom: '24px',
+          marginBottom: '16px',
           border: '1px solid #e9ecef',
           textAlign: 'center'
         }}>
@@ -155,6 +155,25 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             letterSpacing: '-1px'
           }}>
             {new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(total)}
+          </p>
+        </div>
+
+        {/* Payment Instructions */}
+        <div style={{
+          backgroundColor: '#e0f2fe',
+          borderRadius: '8px',
+          padding: '14px',
+          marginBottom: '16px',
+          border: '1px solid #0ea5e9'
+        }}>
+          <p style={{
+            fontSize: '13px',
+            color: '#0369a1',
+            margin: 0,
+            lineHeight: '1.5',
+            textAlign: 'center'
+          }}>
+            💳 결제 후 <strong>이체 완료 화면</strong>을 스태프에게 보여주세요
           </p>
         </div>
 
