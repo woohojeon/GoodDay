@@ -245,7 +245,7 @@ const App: React.FC = () => {
         zIndex: 10,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         gap: '16px',
         borderBottom: '1px solid #e5e7eb',
         backgroundColor: 'white',
