@@ -1,16 +1,71 @@
 import React, { useState } from 'react';
-import { Plus, Minus, Coffee, Gift } from 'lucide-react';
+import { Plus, Minus, Coffee, Gift, Info } from 'lucide-react';
 import { PaymentModal } from './components/PaymentModal';
+import { ProductDetailModal } from './components/ProductDetailModal';
 
 import type { Product, CartItem } from './types';
 
 const PRODUCTS: Product[] = [
-  { id: '1', name: '음료', price: 3500, image: '', icon: <Coffee size={24} />, category: 'Beverages' },
-  { id: '2', name: '양말목 네잎클로버 만들기', price: 3500, image: '', icon: <Gift size={24} />, category: 'DIY' },
-  { id: '3', name: '리사이클링 방향제', price: 2500, image: '', icon: <Gift size={24} />, category: 'DIY' },
-  { id: '4', name: '단추키링 만들기', price: 4500, image: '', icon: <Gift size={24} />, category: 'DIY' },
-  { id: '5', name: '나만의 화분 만들기', price: 2500, image: '', icon: <Gift size={24} />, category: 'DIY' },
-  { id: '6', name: '양말목 방향제 키링 세트', price: 10000, image: '', icon: <Gift size={24} />, category: 'Set' },
+  {
+    id: '1',
+    name: '음료',
+    price: 3500,
+    image: '',
+    icon: <Coffee size={24} />,
+    category: 'Beverages',
+    description: '신선하게 준비한 다양한 음료를 만나보세요. 아이스 아메리카노, 아이스티, 초코라떼, 허브차 중 원하시는 음료를 선택하실 수 있습니다.',
+    detailImages: ['/src/assets/아이스아메리카노.jpg', '/src/assets/아이스티.jpg', '/src/assets/초코라떼.jpg', '/src/assets/허브차.jpg']
+  },
+  {
+    id: '2',
+    name: '양말목 네잎클로버 만들기',
+    price: 3500,
+    image: '',
+    icon: <Gift size={24} />,
+    category: 'DIY',
+    description: '버려지는 양말목을 활용해 행운의 네잎클로버를 만들어보세요. 업사이클링을 통해 환경도 지키고 특별한 추억도 만들 수 있는 체험입니다.',
+    detailImages: ['/src/assets/양말목.jpg']
+  },
+  {
+    id: '3',
+    name: '리사이클링 방향제',
+    price: 2500,
+    image: '',
+    icon: <Gift size={24} />,
+    category: 'DIY',
+    description: '커피박을 활용해 나만의 방향제를 만들어보세요. 버려지는 커피박을 재활용한 친환경 업사이클링 체험이며, 은은한 향기가 오래 지속됩니다.',
+    detailImages: ['/src/assets/방향제.jpg']
+  },
+  {
+    id: '4',
+    name: '단추키링 만들기',
+    price: 4500,
+    image: '',
+    icon: <Gift size={24} />,
+    category: 'DIY',
+    description: '사용하지 않는 단추를 새롭게 재탄생시켜 나만의 키링을 만들어보세요. 업사이클링의 가치를 담은 실용적인 소품입니다.',
+    detailImages: ['/src/assets/단추키링.jpg']
+  },
+  {
+    id: '5',
+    name: '나만의 화분 만들기',
+    price: 2500,
+    image: '',
+    icon: <Gift size={24} />,
+    category: 'DIY',
+    description: '귀여운 미니 화분을 직접 꾸며보세요. 작은 식물을 키우는 즐거움을 경험할 수 있습니다.',
+    detailImages: ['/src/assets/화분.jpg']
+  },
+  {
+    id: '6',
+    name: '양말목 방향제 키링 세트',
+    price: 10000,
+    image: '',
+    icon: <Gift size={24} />,
+    category: 'Set',
+    description: '커피박 방향제, 양말목 네잎클로버, 단추키링을 모두 만들 수 있는 풀 패키지 세트입니다. 버려지는 소재들을 활용한 업사이클링의 가치를 경험하며 알뜰하게 즐길 수 있습니다.',
+    detailImages: ['/src/assets/방향제.jpg', '/src/assets/양말목.jpg', '/src/assets/단추키링.jpg']
+  },
 ];
 
 const useLocalStorage = <T,>(key: string, initialValue: T) => {
@@ -71,7 +126,8 @@ const ProductCard: React.FC<{
   product: Product;
   quantity: number;
   onUpdateQuantity: (id: string, quantity: number) => void;
-}> = ({ product, quantity, onUpdateQuantity }) => (
+  onDetailClick: () => void;
+}> = ({ product, quantity, onUpdateQuantity, onDetailClick }) => (
   <div style={{
     display: 'flex',
     alignItems: 'flex-start',
@@ -90,14 +146,51 @@ const ProductCard: React.FC<{
       alignSelf: 'stretch'
     }}>
       <div>
-        <h3 style={{
-          fontSize: '18px',
-          fontWeight: '700',
-          color: '#111827',
-          margin: '0 0 4px 0'
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '8px',
+          marginBottom: '4px'
         }}>
-          {product.name}
-        </h3>
+          <h3 style={{
+            fontSize: '18px',
+            fontWeight: '700',
+            color: '#111827',
+            margin: 0
+          }}>
+            {product.name}
+          </h3>
+          <button
+            onClick={onDetailClick}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '6px 10px',
+              backgroundColor: '#f3f4f6',
+              color: '#6b7280',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#e5e7eb';
+              e.currentTarget.style.color = '#374151';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#f3f4f6';
+              e.currentTarget.style.color = '#6b7280';
+            }}
+          >
+            <Info size={14} />
+            상세
+          </button>
+        </div>
         <p style={{
           fontSize: '16px',
           fontWeight: '500',
@@ -189,7 +282,14 @@ const ProductCard: React.FC<{
 const App: React.FC = () => {
   const [cart, setCart] = useLocalStorage<Record<string, number>>('fleamarket-cart', {});
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const { toasts, showToast } = useToast();
+
+  const handleDetailClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDetailOpen(true);
+  };
 
   const cartItems: CartItem[] = PRODUCTS
     .filter(product => (cart[product.id] || 0) > 0)
@@ -293,6 +393,7 @@ const App: React.FC = () => {
                   product={product}
                   quantity={cart[product.id] || 0}
                   onUpdateQuantity={updateQuantity}
+                  onDetailClick={() => handleDetailClick(product)}
                 />
               ))}
             </div>
@@ -319,6 +420,7 @@ const App: React.FC = () => {
                   product={product}
                   quantity={cart[product.id] || 0}
                   onUpdateQuantity={updateQuantity}
+                  onDetailClick={() => handleDetailClick(product)}
                 />
               ))}
             </div>
@@ -345,6 +447,7 @@ const App: React.FC = () => {
                   product={product}
                   quantity={cart[product.id] || 0}
                   onUpdateQuantity={updateQuantity}
+                  onDetailClick={() => handleDetailClick(product)}
                 />
               ))}
             </div>
@@ -427,6 +530,11 @@ const App: React.FC = () => {
         total={totalAmount}
         itemCount={totalItems}
         onSuccess={handlePaymentSuccess}
+      />
+      <ProductDetailModal
+        product={selectedProduct}
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
       />
     </div>
   );

@@ -6,7 +6,9 @@ export type Product = {
   price: number;
   category: string;
   icon?: React.ReactNode;
-  image?: string;            // ← 추가
+  image?: string;
+  description?: string;
+  detailImages?: string[];
 };
 export interface CartItem extends Product {
   quantity: number;
