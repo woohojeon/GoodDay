@@ -5,6 +5,16 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 
 import type { Product, CartItem } from './types';
 
+// Import images
+import 아이스아메리카노 from './assets/아이스아메리카노.jpg';
+import 아이스티 from './assets/아이스티.jpg';
+import 초코라떼 from './assets/초코라떼.jpg';
+import 허브차 from './assets/허브차.jpg';
+import 양말목 from './assets/양말목.jpg';
+import 방향제 from './assets/방향제.jpg';
+import 단추키링 from './assets/단추키링.jpg';
+import 화분 from './assets/화분.jpg';
+
 const PRODUCTS: Product[] = [
   {
     id: '1',
@@ -14,7 +24,7 @@ const PRODUCTS: Product[] = [
     icon: <Coffee size={24} />,
     category: 'Beverages',
     description: '신선하게 준비한 다양한 음료를 만나보세요. 아이스 아메리카노, 아이스티, 초코라떼, 허브차 중 원하시는 음료를 선택하실 수 있습니다.',
-    detailImages: ['/src/assets/아이스아메리카노.jpg', '/src/assets/아이스티.jpg', '/src/assets/초코라떼.jpg', '/src/assets/허브차.jpg']
+    detailImages: [아이스아메리카노, 아이스티, 초코라떼, 허브차]
   },
   {
     id: '2',
@@ -24,7 +34,7 @@ const PRODUCTS: Product[] = [
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '버려지는 양말목을 활용해 행운의 네잎클로버를 만들어보세요. 업사이클링을 통해 환경도 지키고 특별한 추억도 만들 수 있는 체험입니다.',
-    detailImages: ['/src/assets/양말목.jpg']
+    detailImages: [양말목]
   },
   {
     id: '3',
@@ -34,7 +44,7 @@ const PRODUCTS: Product[] = [
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '커피박을 활용해 나만의 방향제를 만들어보세요. 버려지는 커피박을 재활용한 친환경 업사이클링 체험이며, 은은한 향기가 오래 지속됩니다.',
-    detailImages: ['/src/assets/방향제.jpg']
+    detailImages: [방향제]
   },
   {
     id: '4',
@@ -44,7 +54,7 @@ const PRODUCTS: Product[] = [
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '사용하지 않는 단추를 새롭게 재탄생시켜 나만의 키링을 만들어보세요. 업사이클링의 가치를 담은 실용적인 소품입니다.',
-    detailImages: ['/src/assets/단추키링.jpg']
+    detailImages: [단추키링]
   },
   {
     id: '5',
@@ -54,7 +64,7 @@ const PRODUCTS: Product[] = [
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '귀여운 미니 화분을 직접 꾸며보세요. 작은 식물을 키우는 즐거움을 경험할 수 있습니다.',
-    detailImages: ['/src/assets/화분.jpg']
+    detailImages: [화분]
   },
   {
     id: '6',
@@ -64,7 +74,7 @@ const PRODUCTS: Product[] = [
     icon: <Gift size={24} />,
     category: 'Set',
     description: '커피박 방향제, 양말목 네잎클로버, 단추키링을 모두 만들 수 있는 풀 패키지 세트입니다. 버려지는 소재들을 활용한 업사이클링의 가치를 경험하며 알뜰하게 즐길 수 있습니다.',
-    detailImages: ['/src/assets/방향제.jpg', '/src/assets/양말목.jpg', '/src/assets/단추키링.jpg']
+    detailImages: [방향제, 양말목, 단추키링]
   },
 ];
 
