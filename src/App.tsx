@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import { Plus, Minus, Check, Coffee, Shirt, Gift, QrCode } from 'lucide-react';
 import { PaymentModal } from './components/PaymentModal';
 import { QRCodeDisplay } from './components/QRCodeDisplay';
-import { UserInfoModal } from './components/UserInfoModal';
 
 import { initiateTossPayment } from './services/tossPaymentService';
 
 import type { Product, CartItem } from './types';
 
 const PRODUCTS: Product[] = [
-  { id: '1', name: '아이스티', price: 3000, image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDdZMVzCpMBNJujnAW8Y7dfLkXbgBU5Lbl3LYIIcGqPo2jw9imOQ5Quz9KohkMZ0thtq2_Tnfrc_hhC_LCN1BXQxEgnmnRcIog2ySpbrpQyYucyqmKtwrSfQrGkpkXvWlkHflYwmNcr6c0hFe4DNLfl5NhJhCpB3cGLDD93kHpwqzZzxWj4iUY8Sjk6FdcRcKPrUQmgW8-DvVgh1wx7g6m_5-bJK3OIq2pRBFzG36aKeq34ZgkAp1Lh_xsOZh-GFBHTVwWHwGMSiSU', icon: <Coffee size={24} />, category: 'Beverages' },
-  { id: '2', name: '아메리카노', price: 2500, image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCo-2Wv4YPQfo73SIRRtKUx4gG7Hl5TfO6ahYJRYiuZ0ownL2v50BtmqDrUNB7NbD0ciI1-kwJm8JwVRhNCAqIIEonbMbrvcJCLoidvqLgX0IEKcOAKK8KXtUBStJTHaw2nPsHA0tiATa-rJppMqdOHypARnQSoF94HX6aXmJCjIqCRHGkXVJMomPRt4aY--FMr_k5aIIcoeCNapROuz-m-wovkCzhvKbja70grpxHIAwEDniiZhESMY3E7atU4_TCX8039RHv6PDY', icon: <Coffee size={24} />, category: 'Beverages' },
-  { id: '3', name: '초코라떼', price: 2500, image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&h=200&fit=crop&fm=jpg&auto=format', icon: <Coffee size={24} />, category: 'Beverages' },
-  { id: '4', name: '모루 인형', price: 5900, image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDuN1i994tFc83HRQeeqxgND_sKG34sBCIldTJ1PyztoplEDOz4v7kF4slXF0o3F1NjpD4pA8ve59th-69K0X22-vs6trRz7D7QPv6Xsdgl1Uf7-6NjmfVvFhxIZq2gRXjliJCXlRxbavc7GwGbGYGURSS4hf5Q213BOvaY5HZtawWzp1HI7pxCZRuDSzujDjlEz9eCTuGTsa3sPNKp1X5-fs3pbCstbEX4lGbbmwplsxWZTs722mfcFljFT3RAMz9gw-TI6sezWb8', icon: <Gift size={24} />, category: 'Goods' },
-  { id: '5', name: '수제 팔찌', price: 5900, image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDuSuBJP1MfPF4lVfvH9cY09GYRVeJ8nKdBTVkVvfmyLJ3naDSp90_1mmxEGtpMNgTH8WFysB5HQwrw3v_S_0GcZLLzSFunzgeCTt2pCnfA7Ug9_hwnyCPZ32MHGHAwYLZQWeDlB4YskSg_0dSssCqX2J6scKcJAsvNLMJ8Odfdt_OHqxHzdSqT5Or0-nJZGR_2a1bRC4vwogMVyZvkuXwWtbkJBC56wosSv80vvp1E2-LnrBFaaolaWK0B3Q_QqY_PnU4SAR7Lb9A', icon: <Shirt size={24} />, category: 'Accessories' },
-  { id: '6', name: '모루인형 + 수제팔찌 세트', price: 10000, image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=300&h=200&fit=crop&fm=jpg&auto=format', icon: <Gift size={24} />, category: 'Set' },
+  { id: '1', name: '음료', price: 3500, image: '', icon: <Coffee size={24} />, category: 'Beverages' },
+  { id: '2', name: '양말목 네잎클로버 만들기', price: 3500, image: '', icon: <Gift size={24} />, category: 'DIY' },
+  { id: '3', name: '리사이클링 방향제', price: 2500, image: '', icon: <Gift size={24} />, category: 'DIY' },
+  { id: '4', name: '단추키링 만들기', price: 4500, image: '', icon: <Gift size={24} />, category: 'DIY' },
+  { id: '5', name: '나만의 화분 만들기', price: 2500, image: '', icon: <Gift size={24} />, category: 'DIY' },
+  { id: '6', name: '양말목 방향제 키링 세트', price: 10000, image: '', icon: <Gift size={24} />, category: 'Set' },
 ];
 
 const useLocalStorage = <T,>(key: string, initialValue: T) => {
@@ -86,22 +85,6 @@ const ProductCard: React.FC<{
     padding: '16px',
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
   }}>
-    <img 
-      src={product.image}
-      alt={product.name}
-      style={{
-        height: '96px',
-        width: '96px',
-        flexShrink: 0,
-        borderRadius: '6px',
-        objectFit: 'cover',
-        border: '1px solid #e5e7eb'
-      }}
-      onError={(e) => {
-        const target = e.target as HTMLImageElement;
-        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zNiAzNkg2MEw1NiA1Nkg0OEw0NCA0NEg1Mkw0NCAzNkg1Mkw0NCAyOEg1MloiIGZpbGw9IiM5Q0EzQUYiLz4KPGNpcmNsZSBjeD0iNDQiIGN5PSIzNiIgcj0iNCIgZmlsbD0iIzlDQTNBRiIvPgo8L3N2Zz4=';
-      }}
-    />
     <div style={{
       display: 'flex',
       flex: 1,
@@ -139,7 +122,7 @@ const ProductCard: React.FC<{
           gap: '8px'
         }}>
           {quantity > 0 && (
-            <button 
+            <button
               style={{
                 borderRadius: '50%',
                 border: '1px solid #d1d5db',
@@ -174,7 +157,7 @@ const ProductCard: React.FC<{
           }}>
             {quantity}
           </span>
-          <button 
+          <button
             style={{
               borderRadius: '50%',
               border: '1px solid #d1d5db',
@@ -286,9 +269,7 @@ const OrderCompletionModal: React.FC<{ isOpen: boolean; onClose: () => void }> =
 
 const App: React.FC = () => {
   const [cart, setCart] = useLocalStorage<Record<string, number>>('fleamarket-cart', {});
-  const [isUserInfoOpen, setIsUserInfoOpen] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isQROpen, setIsQROpen] = useState(false);
   const { toasts, showToast } = useToast();
 
@@ -313,31 +294,15 @@ const App: React.FC = () => {
       showToast('상품을 담아주세요.', 'error');
       return;
     }
-    setIsUserInfoOpen(true);
-  };
-
-  const handleUserInfoSubmit = () => {
-    setIsUserInfoOpen(false);
     setIsPaymentOpen(true);
   };
 
-  const handlePaymentSuccess = async (method: 'kakao' | 'toss') => {
-    try {
-      await initiateTossPayment(cartItems, method);
-      setIsPaymentOpen(false);
-      setIsSuccessOpen(true);
-      setCart({});
-      showToast('주문이 완료되었습니다!');
-    } catch (err) {
-      console.error("=== 결제 에러 ===", err);
-      showToast('결제 요청 실패', 'error');
-    }
+  const handlePaymentSuccess = () => {
+    setIsPaymentOpen(false);
+    setCart({});
+    showToast('주문이 완료되었습니다!');
   };
 
-  const handleSuccess = () => {
-    setIsSuccessOpen(false);
-    setCart({});
-  };
 
   return (
     <div style={{
@@ -460,7 +425,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* 굿즈 섹션 */}
+          {/* DIY 만들기 체험 섹션 */}
           <div>
             <h2 style={{
               marginBottom: '16px',
@@ -468,14 +433,14 @@ const App: React.FC = () => {
               fontWeight: '700',
               color: '#000'
             }}>
-              굿즈
+              DIY 만들기 체험
             </h2>
             <div style={{
               display: 'flex',
               flexDirection: 'column',
               gap: '16px'
             }}>
-              {PRODUCTS.filter(p => p.category === 'Goods' || p.category === 'Accessories').map(product => (
+              {PRODUCTS.filter(p => p.category === 'DIY').map(product => (
                 <ProductCard
                   key={product.id}
                   product={product}
@@ -583,11 +548,6 @@ const App: React.FC = () => {
       </footer>
 
       {/* Modals */}
-      <UserInfoModal
-        isOpen={isUserInfoOpen}
-        onClose={() => setIsUserInfoOpen(false)}
-        onSubmit={handleUserInfoSubmit}
-      />
       <PaymentModal
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
@@ -595,7 +555,6 @@ const App: React.FC = () => {
         itemCount={totalItems}
         onSuccess={handlePaymentSuccess}
       />
-      <OrderCompletionModal isOpen={isSuccessOpen} onClose={handleSuccess} />
       <QRCodeDisplay isOpen={isQROpen} onClose={() => setIsQROpen(false)} />
     </div>
   );

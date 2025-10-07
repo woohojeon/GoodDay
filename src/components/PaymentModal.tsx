@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
-import { X, Smartphone, Wallet, CreditCard, CheckCircle } from 'lucide-react';
-
-type MethodKey = 'kakao' | 'toss';
+import React from 'react';
+import { X, Smartphone, CreditCard } from 'lucide-react';
 
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   total: number;
   itemCount: number;
-  onSuccess: (method: MethodKey) => void;
+  onSuccess: () => void;
 }
-
-const METHODS: { key: MethodKey; label: string; desc: string; icon: React.ReactNode }[] = [
-  { key: 'kakao', label: '카카오페이', desc: '간편결제', icon: <Smartphone size={20} /> },
-  { key: 'toss', label: '토스페이', desc: '간편결제', icon: <Wallet size={20} /> },
-];
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({
   isOpen,
@@ -23,13 +16,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   itemCount,
   onSuccess,
 }) => {
-  const [selected, setSelected] = useState<MethodKey | null>(null);
-
   if (!isOpen) return null;
 
-  const handleConfirm = () => {
-    if (!selected) return;
-    onSuccess(selected);
+  const handleKakaoPayClick = () => {
+    window.open('https://qr.kakaopay.com/Ej9QKajiY', '_blank');
+    onSuccess();
   };
 
   return (
@@ -70,7 +61,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             gap: '8px'
           }}>
             <CreditCard size={20} />
-            결제 방법 선택
+            결제하기
           </h2>
           <button
             onClick={onClose}
@@ -97,130 +88,87 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         {/* Order Summary */}
         <div style={{
           backgroundColor: '#f8f9fa',
-          borderRadius: '8px',
-          padding: '16px',
+          borderRadius: '12px',
+          padding: '24px',
           marginBottom: '24px',
-          border: '1px solid #e9ecef'
+          border: '1px solid #e9ecef',
+          textAlign: 'center'
         }}>
           <p style={{
             fontSize: '14px',
             fontWeight: '600',
             color: '#666',
-            margin: '0 0 4px 0'
+            margin: '0 0 8px 0'
           }}>주문 요약</p>
           <p style={{
             fontSize: '14px',
-            color: '#666',
-            margin: '0 0 8px 0'
+            color: '#999',
+            margin: '0 0 16px 0'
           }}>{itemCount}개 상품</p>
           <p style={{
-            fontSize: '18px',
-            fontWeight: '700',
+            fontSize: '40px',
+            fontWeight: '800',
             color: '#000',
-            margin: 0
+            margin: 0,
+            letterSpacing: '-1px'
           }}>
             {new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(total)}
           </p>
         </div>
 
-        {/* Payment Methods */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-          {METHODS.map((method) => (
-            <button
-              key={method.key}
-              type="button"
-              onClick={() => setSelected(method.key)}
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '16px',
-                borderRadius: '8px',
-                border: selected === method.key ? '2px solid #000' : '1px solid #d1d5db',
-                backgroundColor: selected === method.key ? '#f8f9fa' : 'white',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                if (selected !== method.key) {
-                  e.currentTarget.style.borderColor = '#666';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (selected !== method.key) {
-                  e.currentTarget.style.borderColor = '#d1d5db';
-                }
-              }}
-            >
-              <div style={{
-                flexShrink: 0,
-                width: '40px',
-                height: '40px',
-                borderRadius: '8px',
-                backgroundColor: '#f8f9fa',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid #e9ecef'
-              }}>
-                <div style={{ color: '#333' }}>
-                  {method.icon}
-                </div>
-              </div>
-              <div style={{ flex: 1, textAlign: 'left' }}>
-                <div style={{
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  color: '#000',
-                  marginBottom: '2px'
-                }}>
-                  {method.label}
-                </div>
-                <div style={{
-                  fontSize: '14px',
-                  color: '#666'
-                }}>
-                  {method.desc}
-                </div>
-              </div>
-              {selected === method.key && (
-                <CheckCircle size={20} style={{ color: '#000' }} />
-              )}
-            </button>
-          ))}
+        {/* Payment Information */}
+        <div style={{
+          backgroundColor: '#fff5e6',
+          borderRadius: '8px',
+          padding: '16px',
+          marginBottom: '24px',
+          border: '1px solid #ffcc02'
+        }}>
+          <p style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#d4690a',
+            margin: '0 0 8px 0'
+          }}>결제 안내</p>
+          <p style={{
+            fontSize: '14px',
+            color: '#8b3c00',
+            margin: 0,
+            lineHeight: '1.4'
+          }}>
+            아래 카카오페이 버튼을 클릭하면 새 창에서 결제 페이지가 열립니다.<br/>
+            결제 페이지에서 위 총 금액을 입력하여 결제를 완료해주세요.
+          </p>
         </div>
 
-        {/* Confirm Button */}
+        {/* KakaoPay Button */}
         <button
-          onClick={handleConfirm}
-          disabled={!selected}
+          onClick={handleKakaoPayClick}
           style={{
             width: '100%',
-            padding: '12px',
-            backgroundColor: selected ? '#3b82f6' : '#9ca3af',
-            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            padding: '16px',
+            backgroundColor: '#ffcc02',
+            color: '#3c1e1e',
             border: 'none',
-            borderRadius: '6px',
+            borderRadius: '8px',
             fontSize: '16px',
-            fontWeight: '600',
-            cursor: selected ? 'pointer' : 'not-allowed',
-            transition: 'background-color 0.2s ease'
+            fontWeight: '700',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
           }}
           onMouseEnter={(e) => {
-            if (selected) {
-              e.currentTarget.style.backgroundColor = '#1d4ed8';
-            }
+            e.currentTarget.style.backgroundColor = '#e6b800';
           }}
           onMouseLeave={(e) => {
-            if (selected) {
-              e.currentTarget.style.backgroundColor = '#3b82f6';
-            }
+            e.currentTarget.style.backgroundColor = '#ffcc02';
           }}
         >
-          {selected
-            ? `${METHODS.find((m) => m.key === selected)?.label}로 결제하기 →`
-            : '결제수단을 선택해주세요'}
+          <Smartphone size={20} />
+          카카오페이로 결제하기 →
         </button>
       </div>
     </div>
