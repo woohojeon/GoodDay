@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Plus, Minus, Check, Coffee, Shirt, Gift, QrCode } from 'lucide-react';
+import { Plus, Minus, Coffee, Gift, QrCode } from 'lucide-react';
 import { PaymentModal } from './components/PaymentModal';
 import { QRCodeDisplay } from './components/QRCodeDisplay';
-
-import { initiateTossPayment } from './services/tossPaymentService';
 
 import type { Product, CartItem } from './types';
 
@@ -188,84 +186,6 @@ const ProductCard: React.FC<{
   </div>
 );
 
-const OrderCompletionModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-  
-  return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: 'white',
-        borderRadius: '16px',
-        padding: '40px',
-        textAlign: 'center',
-        maxWidth: '400px',
-        margin: '20px'
-      }}>
-        <div style={{
-          width: '64px',
-          height: '64px',
-          backgroundColor: '#10b981',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: '0 auto 24px'
-        }}>
-          <Check size={32} color="white" />
-        </div>
-        <h2 style={{
-          fontSize: '24px',
-          fontWeight: '600',
-          color: '#1f2937',
-          margin: '0 0 8px 0'
-        }}>
-          주문 완료!
-        </h2>
-        <div style={{
-          fontSize: '16px',
-          color: '#6b7280',
-          margin: '0 0 32px 0'
-        }}>
-          주문이 성공적으로 접수되었습니다.
-        </div>
-        <button 
-          onClick={onClose}
-          style={{
-            width: '100%',
-            padding: '12px 24px',
-            backgroundColor: '#1380ec',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '18px',
-            fontWeight: '700',
-            cursor: 'pointer',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#0d6acb';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#1380ec';
-          }}
-        >
-          확인
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const App: React.FC = () => {
   const [cart, setCart] = useLocalStorage<Record<string, number>>('fleamarket-cart', {});
