@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Plus, Minus, Coffee, Gift, QrCode } from 'lucide-react';
+import { Plus, Minus, Coffee, Gift } from 'lucide-react';
 import { PaymentModal } from './components/PaymentModal';
-import { QRCodeDisplay } from './components/QRCodeDisplay';
 
 import type { Product, CartItem } from './types';
 
@@ -190,7 +189,6 @@ const ProductCard: React.FC<{
 const App: React.FC = () => {
   const [cart, setCart] = useLocalStorage<Record<string, number>>('fleamarket-cart', {});
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const [isQROpen, setIsQROpen] = useState(false);
   const { toasts, showToast } = useToast();
 
   const cartItems: CartItem[] = PRODUCTS
@@ -247,65 +245,20 @@ const App: React.FC = () => {
         zIndex: 10,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         gap: '16px',
         borderBottom: '1px solid #e5e7eb',
         backgroundColor: 'white',
         padding: '16px'
       }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
+        <h1 style={{
+          fontSize: '20px',
+          fontWeight: '700',
+          color: '#111827',
+          margin: 0
         }}>
-          <h1 style={{
-            fontSize: '20px',
-            fontWeight: '700',
-            color: '#111827',
-            margin: 0
-          }}>
-            🍀 굿데이 일일찻집
-          </h1>
-        </div>
-        <button 
-          onClick={() => setIsQROpen(true)}
-          style={{
-            position: 'relative',
-            borderRadius: '50%',
-            padding: '8px',
-            backgroundColor: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f9fafb';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-          }}
-        >
-          <QrCode size={20} color="#4b5563" />
-          {totalItems > 0 && (
-            <div style={{
-              position: 'absolute',
-              right: '-4px',
-              top: '-4px',
-              display: 'flex',
-              height: '20px',
-              width: '20px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '50%',
-              backgroundColor: '#1380ec',
-              fontSize: '12px',
-              fontWeight: '700',
-              color: 'white'
-            }}>
-              {totalItems}
-            </div>
-          )}
-        </button>
+          🍀 굿데이 일일찻집
+        </h1>
       </header>
 
       {/* Main Content */}
@@ -475,7 +428,6 @@ const App: React.FC = () => {
         itemCount={totalItems}
         onSuccess={handlePaymentSuccess}
       />
-      <QRCodeDisplay isOpen={isQROpen} onClose={() => setIsQROpen(false)} />
     </div>
   );
 };
