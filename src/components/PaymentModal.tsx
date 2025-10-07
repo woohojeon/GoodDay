@@ -1,5 +1,5 @@
-import React from 'react';
-import { X, Smartphone, CreditCard } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Smartphone, CreditCard, Copy, Check } from 'lucide-react';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -16,11 +16,53 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   itemCount,
   onSuccess,
 }) => {
+  const [copied, setCopied] = useState(false);
+
   if (!isOpen) return null;
 
   const handleKakaoPayClick = () => {
     window.open('https://qr.kakaopay.com/Ej9QKajiY', '_blank');
     onSuccess();
+  };
+
+  const handleCopyAccount = () => {
+    const accountNumber = '1002156708760';
+
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(accountNumber)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        })
+        .catch(() => {
+          // Fallback to textarea method
+          fallbackCopy(accountNumber);
+        });
+    } else {
+      // Fallback for older browsers
+      fallbackCopy(accountNumber);
+    }
+  };
+
+  const fallbackCopy = (text: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+      document.execCommand('copy');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+
+    document.body.removeChild(textarea);
   };
 
   return (
@@ -116,31 +158,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           </p>
         </div>
 
-        {/* Payment Information */}
-        <div style={{
-          backgroundColor: '#fff5e6',
-          borderRadius: '8px',
-          padding: '16px',
-          marginBottom: '24px',
-          border: '1px solid #ffcc02'
-        }}>
-          <p style={{
-            fontSize: '14px',
-            fontWeight: '600',
-            color: '#d4690a',
-            margin: '0 0 8px 0'
-          }}>결제 안내</p>
-          <p style={{
-            fontSize: '14px',
-            color: '#8b3c00',
-            margin: 0,
-            lineHeight: '1.4'
-          }}>
-            아래 카카오페이 버튼을 클릭하면 새 창에서 결제 페이지가 열립니다.<br/>
-            결제 페이지에서 위 총 금액을 입력하여 결제를 완료해주세요.
-          </p>
-        </div>
-
         {/* KakaoPay Button */}
         <button
           onClick={handleKakaoPayClick}
@@ -158,7 +175,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             fontSize: '16px',
             fontWeight: '700',
             cursor: 'pointer',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            marginBottom: '16px'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#e6b800';
@@ -170,6 +188,97 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           <Smartphone size={20} />
           카카오페이로 결제하기 →
         </button>
+
+        {/* Divider */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          marginBottom: '16px'
+        }}>
+          <div style={{ flex: 1, height: '1px', backgroundColor: '#e5e7eb' }} />
+          <span style={{ fontSize: '14px', color: '#999' }}>또는</span>
+          <div style={{ flex: 1, height: '1px', backgroundColor: '#e5e7eb' }} />
+        </div>
+
+        {/* Bank Account Information */}
+        <div style={{
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          padding: '16px',
+          border: '1px solid #e9ecef'
+        }}>
+          <p style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#666',
+            margin: '0 0 12px 0'
+          }}>계좌이체</p>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px'
+          }}>
+            <div>
+              <p style={{
+                fontSize: '14px',
+                color: '#999',
+                margin: '0 0 4px 0'
+              }}>우리은행 전우호</p>
+              <p style={{
+                fontSize: '18px',
+                fontWeight: '700',
+                color: '#000',
+                margin: 0,
+                letterSpacing: '0.5px'
+              }}>1002-156-708760</p>
+            </div>
+            <button
+              onClick={handleCopyAccount}
+              type="button"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '10px 16px',
+                backgroundColor: copied ? '#10b981' : '#fff',
+                color: copied ? '#fff' : '#666',
+                border: copied ? 'none' : '1px solid #d1d5db',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                whiteSpace: 'nowrap',
+                position: 'relative',
+                zIndex: 1
+              }}
+              onMouseEnter={(e) => {
+                if (!copied) {
+                  e.currentTarget.style.backgroundColor = '#f9fafb';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!copied) {
+                  e.currentTarget.style.backgroundColor = '#fff';
+                }
+              }}
+            >
+              {copied ? (
+                <>
+                  <Check size={16} />
+                  복사됨
+                </>
+              ) : (
+                <>
+                  <Copy size={16} />
+                  복사
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
