@@ -6,7 +6,7 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 import type { Product, CartItem } from './types';
 
 // Import images
-import 아이스아메리카노 from './assets/아이스아메리카노.jpg';
+import 아이스아메리카노 from './assets/아이스아메리카노_icon.jpg';
 import 아이스티 from './assets/아이스티.jpg';
 import 초코라떼 from './assets/초코라떼.jpg';
 import 허브차 from './assets/허브차.jpg';
@@ -15,12 +15,19 @@ import 방향제 from './assets/방향제.jpg';
 import 단추키링 from './assets/단추키링.jpg';
 import 화분 from './assets/화분.jpg';
 
+// Import icons
+import 방향제_icon from './assets/방향제_icon.png';
+import 단추키링_icon from './assets/단추키링_icon.png';
+import 양말목_icon from './assets/양말목_icon.png';
+import 화분_icon from './assets/화분_icon.png';
+import 아이스아메리카노_icon from './assets/아이스아메리카노_icon.jpg';
+
 const PRODUCTS: Product[] = [
   {
     id: '1',
     name: '음료',
     price: 3500,
-    image: '',
+    image: 아이스아메리카노_icon,
     icon: <Coffee size={24} />,
     category: 'Beverages',
     description: '신선하게 준비한 다양한 음료를 만나보세요. 아이스 아메리카노, 아이스티, 초코라떼, 허브차 중 원하시는 음료를 선택하실 수 있습니다.',
@@ -30,7 +37,7 @@ const PRODUCTS: Product[] = [
     id: '2',
     name: '양말목 네잎클로버 만들기',
     price: 3500,
-    image: '',
+    image: 양말목_icon,
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '버려지는 양말목을 활용해 행운의 네잎클로버를 만들어보세요. 업사이클링을 통해 환경도 지키고 특별한 추억도 만들 수 있는 체험입니다.',
@@ -40,7 +47,7 @@ const PRODUCTS: Product[] = [
     id: '3',
     name: '리사이클링 방향제',
     price: 2500,
-    image: '',
+    image: 방향제_icon,
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '커피박을 활용해 나만의 방향제를 만들어보세요. 버려지는 커피박을 재활용한 친환경 업사이클링 체험이며, 은은한 향기가 오래 지속됩니다.',
@@ -50,7 +57,7 @@ const PRODUCTS: Product[] = [
     id: '4',
     name: '단추키링 만들기',
     price: 4500,
-    image: '',
+    image: 단추키링_icon,
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '사용하지 않는 단추를 새롭게 재탄생시켜 나만의 키링을 만들어보세요. 업사이클링의 가치를 담은 실용적인 소품입니다.',
@@ -60,7 +67,7 @@ const PRODUCTS: Product[] = [
     id: '5',
     name: '나만의 화분 만들기',
     price: 2500,
-    image: '',
+    image: 화분_icon,
     icon: <Gift size={24} />,
     category: 'DIY',
     description: '귀여운 미니 화분을 직접 꾸며보세요. 작은 식물을 키우는 즐거움을 경험할 수 있습니다.',
@@ -148,6 +155,19 @@ const ProductCard: React.FC<{
     padding: '16px',
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
   }}>
+    {product.image && (
+      <img
+        src={product.image}
+        alt={product.name}
+        style={{
+          width: '80px',
+          height: '80px',
+          objectFit: 'cover',
+          borderRadius: '8px',
+          flexShrink: 0
+        }}
+      />
+    )}
     <div style={{
       display: 'flex',
       flex: 1,

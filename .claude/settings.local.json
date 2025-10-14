@@ -20,7 +20,8 @@
       "Bash(dir)",
       "Bash(dir ..fleamarket-app)",
       "Bash(npm run build:*)",
-      "WebFetch(domain:qr.kakaopay.com)"
+      "WebFetch(domain:qr.kakaopay.com)",
+      "Bash(dir \"C:\\Users\\dngh7\\Desktop\\GoodDay (1)\\src\\assets\")"
     ],
     "deny": [],
     "ask": [],
