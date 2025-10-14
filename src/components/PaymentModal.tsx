@@ -26,7 +26,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   };
 
   const handleCopyAccount = () => {
-    const accountNumber = '76320101747310';
+    const accountNumber = '9003298148719';
 
     // Try modern clipboard API first
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -244,14 +244,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 fontSize: '14px',
                 color: '#999',
                 margin: '0 0 4px 0'
-              }}>KB국민 장진하</p>
+              }}>새마을금고 굿데이(장진하)</p>
               <p style={{
                 fontSize: '18px',
                 fontWeight: '700',
                 color: '#000',
                 margin: 0,
                 letterSpacing: '0.5px'
-              }}>763201-01-747310</p>
+              }}>9003-2981-4871-9</p>
             </div>
             <button
               onClick={handleCopyAccount}

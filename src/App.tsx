@@ -6,7 +6,7 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 import type { Product, CartItem } from './types';
 
 // Import images
-import 아이스아메리카노 from './assets/아이스아메리카노_icon.jpg';
+import 아이스아메리카노 from './assets/음료_icon.jpg';
 import 아이스티 from './assets/아이스티.jpg';
 import 초코라떼 from './assets/초코라떼.jpg';
 import 허브차 from './assets/허브차.jpg';
@@ -20,14 +20,15 @@ import 방향제_icon from './assets/방향제_icon.png';
 import 단추키링_icon from './assets/단추키링_icon.png';
 import 양말목_icon from './assets/양말목_icon.png';
 import 화분_icon from './assets/화분_icon.png';
-import 아이스아메리카노_icon from './assets/아이스아메리카노_icon.jpg';
+import 음료_icon from './assets/음료_icon.jpg';
+import 세트_icon from './assets/세트.jpg';
 
 const PRODUCTS: Product[] = [
   {
     id: '1',
     name: '음료',
     price: 3500,
-    image: 아이스아메리카노_icon,
+    image: 음료_icon,
     icon: <Coffee size={24} />,
     category: 'Beverages',
     description: '신선하게 준비한 다양한 음료를 만나보세요. 아이스 아메리카노, 아이스티, 초코라떼, 허브차 중 원하시는 음료를 선택하실 수 있습니다.',
@@ -77,7 +78,7 @@ const PRODUCTS: Product[] = [
     id: '6',
     name: '양말목 방향제 키링 세트',
     price: 10000,
-    image: '',
+    image: 세트_icon,
     icon: <Gift size={24} />,
     category: 'Set',
     description: '커피박 방향제, 양말목 네잎클로버, 단추키링을 모두 만들 수 있는 풀 패키지 세트입니다. 버려지는 소재들을 활용한 업사이클링의 가치를 경험하며 알뜰하게 즐길 수 있습니다.',
