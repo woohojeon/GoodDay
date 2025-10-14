@@ -21,12 +21,12 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   if (!isOpen) return null;
 
   const handleKakaoPayClick = () => {
-    window.open('https://qr.kakaopay.com/Ej9QKajiY', '_blank');
+    window.open('https://qr.kakaopay.com/FC0k2MOur', '_blank');
     onSuccess();
   };
 
   const handleCopyAccount = () => {
-    const accountNumber = '1002156708760';
+    const accountNumber = '76320101747310';
 
     // Try modern clipboard API first
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -244,14 +244,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 fontSize: '14px',
                 color: '#999',
                 margin: '0 0 4px 0'
-              }}>우리은행 전우호</p>
+              }}>KB국민 장진하</p>
               <p style={{
                 fontSize: '18px',
                 fontWeight: '700',
                 color: '#000',
                 margin: 0,
                 letterSpacing: '0.5px'
-              }}>1002-156-708760</p>
+              }}>763201-01-747310</p>
             </div>
             <button
               onClick={handleCopyAccount}
