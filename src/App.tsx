@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Plus, Minus, Coffee, Gift, Info } from 'lucide-react';
+import { Plus, Minus, Coffee, Gift } from 'lucide-react';
 import { PaymentModal } from './components/PaymentModal';
-import { ProductDetailModal } from './components/ProductDetailModal';
 
 import type { Product, CartItem } from './types';
 
@@ -20,7 +19,7 @@ import 방향제_icon from './assets/방향제_icon.png';
 import 단추키링_icon from './assets/단추키링_icon.png';
 import 양말목_icon from './assets/양말목_icon.png';
 import 화분_icon from './assets/화분_icon.png';
-import 음료_icon from './assets/음료_icon.jpg';
+import 음료_icon from './assets/음료_icon.png';
 import 세트_icon from './assets/세트.jpg';
 
 const PRODUCTS: Product[] = [
@@ -144,8 +143,7 @@ const ProductCard: React.FC<{
   product: Product;
   quantity: number;
   onUpdateQuantity: (id: string, quantity: number) => void;
-  onDetailClick: () => void;
-}> = ({ product, quantity, onUpdateQuantity, onDetailClick }) => (
+}> = ({ product, quantity, onUpdateQuantity }) => (
   <div style={{
     display: 'flex',
     alignItems: 'flex-start',
@@ -177,51 +175,14 @@ const ProductCard: React.FC<{
       alignSelf: 'stretch'
     }}>
       <div>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '8px',
-          marginBottom: '4px'
+        <h3 style={{
+          fontSize: '18px',
+          fontWeight: '700',
+          color: '#111827',
+          margin: '0 0 4px 0'
         }}>
-          <h3 style={{
-            fontSize: '18px',
-            fontWeight: '700',
-            color: '#111827',
-            margin: 0
-          }}>
-            {product.name}
-          </h3>
-          <button
-            onClick={onDetailClick}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              padding: '6px 10px',
-              backgroundColor: '#f3f4f6',
-              color: '#6b7280',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '13px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              whiteSpace: 'nowrap'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#e5e7eb';
-              e.currentTarget.style.color = '#374151';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-              e.currentTarget.style.color = '#6b7280';
-            }}
-          >
-            <Info size={14} />
-            상세
-          </button>
-        </div>
+          {product.name}
+        </h3>
         <p style={{
           fontSize: '16px',
           fontWeight: '500',
@@ -313,14 +274,7 @@ const ProductCard: React.FC<{
 const App: React.FC = () => {
   const [cart, setCart] = useLocalStorage<Record<string, number>>('fleamarket-cart', {});
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const { toasts, showToast } = useToast();
-
-  const handleDetailClick = (product: Product) => {
-    setSelectedProduct(product);
-    setIsDetailOpen(true);
-  };
 
   const cartItems: CartItem[] = PRODUCTS
     .filter(product => (cart[product.id] || 0) > 0)
@@ -424,7 +378,6 @@ const App: React.FC = () => {
                   product={product}
                   quantity={cart[product.id] || 0}
                   onUpdateQuantity={updateQuantity}
-                  onDetailClick={() => handleDetailClick(product)}
                 />
               ))}
             </div>
@@ -451,7 +404,6 @@ const App: React.FC = () => {
                   product={product}
                   quantity={cart[product.id] || 0}
                   onUpdateQuantity={updateQuantity}
-                  onDetailClick={() => handleDetailClick(product)}
                 />
               ))}
             </div>
@@ -478,7 +430,6 @@ const App: React.FC = () => {
                   product={product}
                   quantity={cart[product.id] || 0}
                   onUpdateQuantity={updateQuantity}
-                  onDetailClick={() => handleDetailClick(product)}
                 />
               ))}
             </div>
@@ -561,11 +512,6 @@ const App: React.FC = () => {
         total={totalAmount}
         itemCount={totalItems}
         onSuccess={handlePaymentSuccess}
-      />
-      <ProductDetailModal
-        product={selectedProduct}
-        isOpen={isDetailOpen}
-        onClose={() => setIsDetailOpen(false)}
       />
     </div>
   );
