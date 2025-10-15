@@ -357,6 +357,32 @@ const App: React.FC = () => {
           flexDirection: 'column',
           gap: '24px'
         }}>
+          {/* 세트 메뉴 섹션 */}
+          <div>
+            <h2 style={{
+              marginBottom: '16px',
+              fontSize: '24px',
+              fontWeight: '700',
+              color: '#000'
+            }}>
+              세트 메뉴
+            </h2>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px'
+            }}>
+              {PRODUCTS.filter(p => p.category === 'Set').map(product => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  quantity={cart[product.id] || 0}
+                  onUpdateQuantity={updateQuantity}
+                />
+              ))}
+            </div>
+          </div>
+
           {/* 음료 섹션 */}
           <div>
             <h2 style={{
@@ -399,32 +425,6 @@ const App: React.FC = () => {
               gap: '16px'
             }}>
               {PRODUCTS.filter(p => p.category === 'DIY').map(product => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  quantity={cart[product.id] || 0}
-                  onUpdateQuantity={updateQuantity}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* 세트 메뉴 섹션 */}
-          <div>
-            <h2 style={{
-              marginBottom: '16px',
-              fontSize: '24px',
-              fontWeight: '700',
-              color: '#000'
-            }}>
-              세트 메뉴
-            </h2>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px'
-            }}>
-              {PRODUCTS.filter(p => p.category === 'Set').map(product => (
                 <ProductCard
                   key={product.id}
                   product={product}
