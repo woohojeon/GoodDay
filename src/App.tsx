@@ -75,7 +75,7 @@ const PRODUCTS: Product[] = [
   },
   {
     id: '6',
-    name: '양말목 방향제 키링 세트',
+    name: '양말목키링 & 방향제 & 단추키링 세트',
     price: 10000,
     image: 세트_icon,
     icon: <Gift size={24} />,
